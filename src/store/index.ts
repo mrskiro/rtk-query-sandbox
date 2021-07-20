@@ -1,9 +1,10 @@
-import * as ReduxToolkit from "@reduxjs/toolkit";
+import * as ReduxToolkit from "@reduxjs/toolkit"
+import { rootReducer } from "~/store/reducer"
 
 export const store = ReduxToolkit.configureStore({
-  reducer: {},
-});
+  reducer: rootReducer,
+})
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch
