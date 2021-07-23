@@ -5,16 +5,19 @@ import * as Entity from "~/entity"
 type Props = {
   pokemons: Entity.Pokemon[]
   isStop: boolean
+  isShiny: boolean
 }
 
 export const PokeImage = React.memo<Props>((props) => {
-  const [currentImage, setCurrentImage] = React.useState("")
+  const [currentPokemon, setCurrentPokemon] = React.useState<Entity.Pokemon>(
+    getRandomImage(props.pokemons)
+  )
 
   React.useEffect(() => {
     if (props.isStop) return
     const interval = setInterval(() => {
-      const src = getRandomImage(props.pokemons)
-      setCurrentImage(src)
+      const poke = getRandomImage(props.pokemons)
+      setCurrentPokemon(poke)
     }, 50)
 
     return () => {
@@ -22,12 +25,16 @@ export const PokeImage = React.memo<Props>((props) => {
     }
   }, [props.pokemons, props.isStop])
 
-  return <Img src={currentImage} />
+  const src = React.useMemo(() => {
+    if (props.isShiny) return currentPokemon.sprites.front_shiny
+    return currentPokemon.sprites.front_default
+  }, [props.isShiny, currentPokemon])
+
+  return <Img src={src} />
 })
 
-function getRandomImage(pokemons: Entity.Pokemon[]): string {
-  return pokemons[Math.floor(Math.random() * pokemons.length)].sprites
-    .front_default
+function getRandomImage(pokemons: Entity.Pokemon[]): Entity.Pokemon {
+  return pokemons[Math.floor(Math.random() * pokemons.length)]
 }
 
 const Img = styled.img`

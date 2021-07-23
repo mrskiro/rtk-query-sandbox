@@ -5,6 +5,7 @@ import { PokeImage } from "~/components/PokeImage"
 
 export const App = () => {
   const [isStop, setIsStop] = React.useState(false)
+  const [isShiny, setIsShiny] = React.useState(false)
   const {
     data: pokemons,
     isLoading,
@@ -15,13 +16,22 @@ export const App = () => {
     setIsStop((isStop) => !isStop)
   }, [])
 
+  const onShinyClick = React.useCallback(() => {
+    setIsShiny((isShiny) => !isShiny)
+  }, [])
+
   if (isError) return <div>error!</div>
-  if (isLoading) return <div>loading...</div>
+  if (isLoading) return <Layout>loading...</Layout>
 
   return (
     <Layout>
-      <PokeImage pokemons={pokemons!} isStop={isStop} />
-      <button onClick={onClick}>{isStop ? "Restart" : "Stop"}</button>
+      <ButtonGroup>
+        <Button isClicked={isShiny} onClick={onShinyClick}>
+          色違い
+        </Button>
+      </ButtonGroup>
+      <PokeImage pokemons={pokemons!} isStop={isStop} isShiny={isShiny} />
+      <Button onClick={onClick}>{isStop ? "Restart" : "Stop"}</Button>
     </Layout>
   )
 }
@@ -32,4 +42,12 @@ const Layout = styled.main`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+`
+
+const ButtonGroup = styled.div`
+  display: flex;
+`
+
+const Button = styled.button<{ isClicked?: boolean }>`
+  background-color: ${(props) => (props.isClicked ? "gray" : "inherit")};
 `
