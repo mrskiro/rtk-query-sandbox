@@ -1,40 +1,40 @@
-import { NamedAPIResource } from "./types";
+import { NamedAPIResource } from "./types"
 
 export type Pokemon = {
-  id: number;
-  name: string;
-  baseExperience: number;
-  height: number;
-  isDefault: boolean;
-  order: number;
-  weight: number;
+  id: number
+  name: string
+  base_experience: number
+  height: number
+  is_default: boolean
+  order: number
+  weight: number
   abilities: {
-    isHidden: boolean;
-    slot: number;
-    ability: NamedAPIResource;
-  }[];
-  forms: NamedAPIResource[];
+    is_hidden: boolean
+    slot: number
+    ability: NamedAPIResource
+  }[]
+  forms: NamedAPIResource[]
   moves: {
-    move: NamedAPIResource;
-  }[];
+    move: NamedAPIResource
+  }[]
   sprites: {
-    frontDefault: string;
-    frontShiny: string;
-    frontFemale: string;
-    frontShinyFemale: string;
-    backDefault: string;
-    backShiny: string;
-    backFemale: string;
-    backShinyFemale: string;
-  };
-  species: NamedAPIResource[];
+    front_default: string
+    front_shiny: string
+    front_female: string
+    front_shiny_female: string
+    back_default: string
+    back_shiny: string
+    back_female: string
+    back_shiny_female: string
+  }
+  species: NamedAPIResource[]
   stats: {
-    baseStat: number;
-    effort: number;
-    stat: NamedAPIResource;
-  }[];
+    base_stat: number
+    effort: number
+    stat: NamedAPIResource
+  }[]
   types: {
-    slot: number;
-    type: NamedAPIResource;
-  }[];
-};
+    slot: number
+    type: NamedAPIResource
+  }[]
+}
