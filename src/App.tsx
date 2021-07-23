@@ -1,45 +1,35 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import * as React from "react"
+import styled from "styled-components"
+import * as Api from "~/store/api"
+import { PokeImage } from "~/components/PokeImage"
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const [isStop, setIsStop] = React.useState(false)
+  const {
+    data: pokemons,
+    isLoading,
+    isError,
+  } = Api.useGetPokemonsToLimitQuery({ limit: 151 })
+
+  const onClick = React.useCallback(() => {
+    setIsStop((isStop) => !isStop)
+  }, [])
+
+  if (isError) return <div>error!</div>
+  if (isLoading) return <div>loading...</div>
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <Layout>
+      <PokeImage pokemons={pokemons!} isStop={isStop} />
+      <button onClick={onClick}>{isStop ? "Restart" : "Stop"}</button>
+    </Layout>
   )
 }
 
-export default App
+const Layout = styled.main`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+`

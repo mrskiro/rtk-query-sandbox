@@ -1,8 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import * as ReactRedux from "react-redux"
-import "./index.css"
-import App from "./App"
+import { App } from "./App"
 
 import { store } from "~/store"
 
