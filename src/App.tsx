@@ -6,6 +6,7 @@ import { PokeImage } from "~/components/PokeImage"
 export const App = () => {
   const [isStop, setIsStop] = React.useState(false)
   const [isShiny, setIsShiny] = React.useState(false)
+
   const {
     data: pokemons,
     isLoading,
