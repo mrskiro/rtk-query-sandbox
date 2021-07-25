@@ -6,6 +6,7 @@ import { PokeImage } from "~/components/PokeImage"
 export const App = () => {
   const [isStop, setIsStop] = React.useState(false)
   const [isShiny, setIsShiny] = React.useState(false)
+  const [isBack, setIsBack] = React.useState(false)
 
   const {
     data: pokemons,
@@ -21,6 +22,10 @@ export const App = () => {
     setIsShiny((isShiny) => !isShiny)
   }, [])
 
+  const onBackClick = React.useCallback(() => {
+    setIsBack((isBack) => !isBack)
+  }, [])
+
   if (isError) return <div>error!</div>
   if (isLoading) return <Layout>loading...</Layout>
 
@@ -30,9 +35,17 @@ export const App = () => {
         <Button isClicked={isShiny} onClick={onShinyClick}>
           色違い
         </Button>
+        <Button isClicked={isBack} onClick={onBackClick}>
+          後ろ姿
+        </Button>
       </ButtonGroup>
-      <PokeImage pokemons={pokemons!} isStop={isStop} isShiny={isShiny} />
-      <Button onClick={onClick}>{isStop ? "Restart" : "Stop"}</Button>
+      <PokeImage
+        pokemons={pokemons!}
+        isStop={isStop}
+        isShiny={isShiny}
+        isBack={isBack}
+      />
+      <Button onClick={onClick}>{isStop ? "もう一回" : "ストップ"}</Button>
     </Layout>
   )
 }
@@ -47,6 +60,7 @@ const Layout = styled.main`
 
 const ButtonGroup = styled.div`
   display: flex;
+  gap: 8px;
 `
 
 const Button = styled.button<{ isClicked?: boolean }>`
