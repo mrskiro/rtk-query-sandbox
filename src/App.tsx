@@ -1,6 +1,9 @@
 import * as React from "react"
 import styled from "styled-components"
+import * as ReactRedux from "react-redux"
 import * as Api from "~/store/api"
+import * as PokemonsOperations from "~/store/entities/pokemons/operations"
+import * as PokemonsSelectors from "~/store/entities/pokemons/selectors"
 import { PokeImage } from "~/components/PokeImage"
 
 export const App = () => {
@@ -8,11 +11,21 @@ export const App = () => {
   const [isShiny, setIsShiny] = React.useState(false)
   const [isBack, setIsBack] = React.useState(false)
 
-  const {
-    data: pokemons,
-    isLoading,
-    isError,
-  } = Api.useGetPokemonsToLimitQuery({ limit: 151 })
+  const dispatch = ReactRedux.useDispatch()
+  const isLoading = ReactRedux.useSelector(PokemonsSelectors.isLoading)
+  const isError = ReactRedux.useSelector(PokemonsSelectors.isError)
+  const pokemons = ReactRedux.useSelector(
+    PokemonsSelectors.pokemonsSelector.selectAll
+  )
+
+  // const {
+  //   data: pokemons,
+  //   isLoading,
+  //   isError,
+  // } = Api.useGetPokemonsToLimitQuery({ limit: 151 })
+  React.useEffect(() => {
+    dispatch(PokemonsOperations.getPokemonsToLimit({ limit: 151 }))
+  }, [])
 
   const onClick = React.useCallback(() => {
     setIsStop((isStop) => !isStop)
@@ -27,7 +40,7 @@ export const App = () => {
   }, [])
 
   if (isError) return <div>error!</div>
-  if (isLoading) return <Layout>loading...</Layout>
+  if (isLoading || !pokemons.length) return <Layout>loading...</Layout>
 
   return (
     <Layout>
@@ -40,7 +53,7 @@ export const App = () => {
         </Button>
       </ButtonGroup>
       <PokeImage
-        pokemons={pokemons!}
+        pokemons={pokemons}
         isStop={isStop}
         isShiny={isShiny}
         isBack={isBack}
