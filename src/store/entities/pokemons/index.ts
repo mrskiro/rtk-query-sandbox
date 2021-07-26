@@ -30,6 +30,7 @@ const slice = ReduxToolkit.createSlice({
     builder.addCase(
       PokemonsOperations.getPokemonsToLimit.fulfilled,
       (state, action) => {
+        state.loading = "idle"
         pokemonsAdapter.setAll(state, action.payload)
       }
     )
