@@ -12,20 +12,21 @@ export const App = () => {
   const [isBack, setIsBack] = React.useState(false)
 
   const dispatch = ReactRedux.useDispatch()
-  const isLoading = ReactRedux.useSelector(PokemonsSelectors.isLoading)
-  const isError = ReactRedux.useSelector(PokemonsSelectors.isError)
-  const pokemons = ReactRedux.useSelector(
-    PokemonsSelectors.pokemonsSelector.selectAll
-  )
+  // const isLoading = ReactRedux.useSelector(PokemonsSelectors.isLoading)
+  // const isError = ReactRedux.useSelector(PokemonsSelectors.isError)
+  // const pokemons = ReactRedux.useSelector(
+  //   PokemonsSelectors.pokemonsSelector.selectAll
+  // )
 
-  // const {
-  //   data: pokemons,
-  //   isLoading,
-  //   isError,
-  // } = Api.useGetPokemonsToLimitQuery({ limit: 151 })
-  React.useEffect(() => {
-    dispatch(PokemonsOperations.getPokemonsToLimit({ limit: 151 }))
-  }, [])
+  const {
+    data: pokemons,
+    isLoading,
+    isError,
+  } = Api.useGetPokemonsToLimitQuery({ limit: 151 })
+
+  // React.useEffect(() => {
+  //   dispatch(PokemonsOperations.getPokemonsToLimit({ limit: 151 }))
+  // }, [])
 
   const onClick = React.useCallback(() => {
     setIsStop((isStop) => !isStop)
@@ -40,7 +41,7 @@ export const App = () => {
   }, [])
 
   if (isError) return <div>error!</div>
-  if (isLoading || !pokemons.length) return <Layout>loading...</Layout>
+  if (isLoading || !pokemons?.length) return <Layout>loading...</Layout>
 
   return (
     <Layout>
@@ -53,7 +54,7 @@ export const App = () => {
         </Button>
       </ButtonGroup>
       <PokeImage
-        pokemons={pokemons}
+        pokemons={pokemons!}
         isStop={isStop}
         isShiny={isShiny}
         isBack={isBack}
